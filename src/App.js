@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { db } from "../src/firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [activities, setActivities] = useState([]);
+  const activitiesCollectionRef = collection(db, "activities");
+
+  useEffect(() => {
+    const getActivities = async () => {
+      const data = await getDocs(activitiesCollectionRef);
+
+      setActivities(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    getActivities();
+  }, []);
+
+  console.log(activities);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>well, hello there.</h1>
       </header>
+      <blockquote>
+        Human beings make life so interesting. Do you know, that in a universe
+        so full of wonders, they have managed to invent boredom ?
+      </blockquote>
+      <span>
+        -DEATH
+        <br />
+      </span>
+      <span>Terry Pratchett</span>
     </div>
   );
 }
