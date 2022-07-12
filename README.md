@@ -1,6 +1,13 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# wonders of boredom 🧠 ✨
+
+## App created for learning purposes- to practice React, CRUDing, GIT and many, many more...
+Stay tuned for new versions !
+
+## See live: https://wonders-of-boredom.web.app/
+
+And yes, this project was of course bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
