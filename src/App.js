@@ -1,4 +1,4 @@
-import { db } from "../src/firebase-config";
+import { db } from "./firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
