@@ -1,18 +1,8 @@
 import styled from "styled-components";
 import { media } from "./MediaQueries";
-import { keyframes } from "styled-components";
+import { pulseMain } from "./Global";
 
-const pulse = keyframes`
-from {
-  transform: rotate(225deg) scale(1);
-  filter: blur(50px);
-}
 
-to {
-  transform: rotate(250deg) scale(1.2);
-  filter: blur(80px);
-}
-`;
 
 export const MainStyled = styled.main`
   min-height: 130vh;
@@ -55,6 +45,6 @@ export const MainStyled = styled.main`
     left: -170px;
     border-radius: 50%;
     transform: rotate(225deg);
-    animation: ${pulse} 3s ease-in-out infinite alternate;
+    animation: ${pulseMain} 3s ease-in-out infinite alternate;
   }
 `;

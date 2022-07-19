@@ -1,31 +1,21 @@
-import { db } from "./firebase-config";
-import { collection, getDocs } from "firebase/firestore";
-import { useState, useEffect, useRef } from "react";
+
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GlobalStyles from "./styles/Global";
-import { HeaderStyled, ShimmeringArrows } from "./styles/HeaderStyled";
+import { HeaderStyled, ShimmeringArrows, HeaderWrapperStyled } from "./styles/HeaderStyled";
 import { MainStyled } from "./styles/MainStyled";
 import { WrapperStyled } from "./styles/WrapperStyled";
+import Activities from './components/Activities';
 
 function App() {
-  const [activities, setActivities] = useState([]);
-  const activitiesCollectionRef = collection(db, "activities");
+
   gsap.registerPlugin(ScrollTrigger);
 
   const headerRef = useRef(null);
   const shimmerRef = useRef(null);
   const mainRef = useRef(null);
 
-  useEffect(() => {
-    const getActivities = async () => {
-      const data = await getDocs(activitiesCollectionRef);
-      setActivities(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    getActivities();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     const arrowDisappear = gsap.to(shimmerRef.current, {
@@ -74,22 +64,24 @@ function App() {
       mainAppear.scrollTrigger.kill();
       stayTuned.scrollTrigger.kill();
     };
-  });
+  }, []);
 
-  console.log(activities);
   return (
     <>
       <GlobalStyles />
       <HeaderStyled ref={headerRef}>
-        <WrapperStyled>
+      <ShimmeringArrows ref={shimmerRef} />
+        <HeaderWrapperStyled>
           <blockquote>
             Human beings make life so interesting. Do you know, that in a
             universe so full of wonders, they have managed to invent boredom ?
           </blockquote>
-          <span>Terry Pratchett</span>
-          <ShimmeringArrows ref={shimmerRef} />
-        </WrapperStyled>
+          <p>Terry Pratchett</p>
+        </HeaderWrapperStyled>
       </HeaderStyled>
+
+      <Activities/>
+
       <MainStyled ref={mainRef}>
         <WrapperStyled>
           <p>Wonderfull things are coming. Soon...</p>

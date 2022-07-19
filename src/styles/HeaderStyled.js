@@ -1,27 +1,6 @@
 import styled from "styled-components";
-import { keyframes } from "styled-components";
-
-const shimmer = keyframes`
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 0.7;
-  }
-`;
-
-const pulse = keyframes`
-  from {
-    transform: rotate(25deg) scaleY(1);
-    opacity: 1;
-  }
-
-  to {
-    transform: rotate(0deg) scaleY(0.8);
-    opacity: 0.8;
-  }
-`;
+import { shimmer, pulseHeader } from "./Global"
+import { media } from "./MediaQueries";
 
 export const HeaderStyled = styled.header`
   min-height: 150vh;
@@ -30,8 +9,9 @@ export const HeaderStyled = styled.header`
   font-size: 1.5rem;
   overflow: hidden;
 
-  span {
-    margin: 1.5rem 0 0 auto;
+  p {
+    margin-top: 1.2rem;
+    text-align: right;
     font-size: 1.2rem;
   }
 
@@ -49,14 +29,38 @@ export const HeaderStyled = styled.header`
     border-radius: 50%;
     filter: blur(50px);
     transform: rotate(25deg);
-    animation: ${pulse} 3s ease 1s infinite alternate;
+    animation: ${pulseHeader} 3s ease 1s infinite alternate;
     position: fixed;
+  }
+`;
+
+
+export const HeaderWrapperStyled = styled.div`
+  padding: 0 50px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 1;
+
+  ${media.tablet} {
+    padding: 0 100px;
+  }
+  ${media.smallScreen} {
+    padding: 0 200px;
+    font-size: 1.7rem;
+  }
+  ${media.largeScreen} {
+    padding: 0 400px;
   }
 `;
 
 export const ShimmeringArrows = styled.div`
   position: absolute;
-  bottom: 0;
+  top: 63%;
+  left: 50%;
+  transform: translateX(-50%);
   height: 25px;
   width: 25px;
 
