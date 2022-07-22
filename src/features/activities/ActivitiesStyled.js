@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { media } from "./MediaQueries";
-import { shimmer } from "./Global";
+import { media } from "../../styles/MediaQueries";
+import { shimmer } from "../../styles/Global";
 
 export const ActivitiesStyled = styled.section`
   position: relative;
@@ -10,6 +10,11 @@ export const ActivitiesStyled = styled.section`
   max-width: 100%;
   overflow: hidden;
   opacity: 0;
+
+  h1{
+    font-family: var(--cormorant);
+    font-size: 1.5rem;
+  }
 
   ${media.smallScreen} {
     padding: 100px 40px;
@@ -78,7 +83,7 @@ export const ActivitiesListStyled = styled.ul`
   }
 `;
 
-export const ActivitiesWrapper = styled.div`
+export const ActivitiesWrapperStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
   position: relative;
@@ -93,7 +98,7 @@ export const ActivitiesWrapper = styled.div`
   opacity: ${(props) => (props.menuOpen ? 0.5 : 1)};
   filter: blur(${(props) => (props.menuOpen ? 5 : 0)}px);
 
-  p {
+  a {
     padding-top: 7rem;
     font-family: var(--cormorant);
     font-size: 1.5rem;

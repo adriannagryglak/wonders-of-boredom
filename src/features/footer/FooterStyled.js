@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import { media } from "./MediaQueries";
-import { pulseMain } from "./Global";
+import { media } from "../../styles/MediaQueries";
+import { pulseMain } from "../../styles/Global";
 
-
-
-export const MainStyled = styled.main`
+export const FooterStyled = styled.footer`
   min-height: 130vh;
   font-family: var(--nanum);
   font-size: 2rem;
@@ -46,5 +44,27 @@ export const MainStyled = styled.main`
     border-radius: 50%;
     transform: rotate(225deg);
     animation: ${pulseMain} 3s ease-in-out infinite alternate;
+  }
+`;
+
+export const FooterWrapperStyled = styled.div`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  position: fixed;
+  z-index: 10;
+
+  ${media.tablet} {
+    padding: 0 100px;
+  }
+  ${media.smallScreen} {
+    padding: 0 200px;
+    font-size: 1.7rem;
+  }
+  ${media.largeScreen} {
+    padding: 0 400px;
   }
 `;

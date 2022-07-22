@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { shimmer, pulseHeader } from "./Global"
-import { media } from "./MediaQueries";
+import { shimmer, pulseHeader } from "../../styles/Global"
+import { media } from "../../styles/MediaQueries";
 
 export const HeaderStyled = styled.header`
   min-height: 150vh;
