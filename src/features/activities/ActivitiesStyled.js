@@ -21,7 +21,7 @@ export const ActivitiesStyled = styled.section`
   }
 `;
 
-export const ActivitiesListStyled = styled.ul`
+export const ActivitiesListStyled = styled.menu`
   font-family: var(--cormorant);
   font-size: 1.5rem;
   margin: 1.5rem 0 7rem;

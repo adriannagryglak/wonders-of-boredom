@@ -11,11 +11,11 @@ function App() {
       <GlobalStyles />
       <Header />
       <main>
-        <ActivitiesContextProvider>
+      <ActivitiesContextProvider>
           {/* TODO <CustomActivitySearch /> */}
           <Outlet/>
           {/* TODO <Share your own idea /> */}
-        </ActivitiesContextProvider>
+          </ActivitiesContextProvider>
       </main>
       <Footer/>
     </>

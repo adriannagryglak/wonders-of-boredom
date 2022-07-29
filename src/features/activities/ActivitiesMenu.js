@@ -1,9 +1,9 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
 export default function ActivitiesList({ sortType, setSortType, menuOpen, setMenuOpen}) {
 
-  const sortingTypes={"top": "top rated activities", "least": "least liked activities","random": "just random ideas"};
-  
-  console.log(sortType, sortingTypes);
+  const sortingTypes={top: "top rated activities", 
+                      least: "least liked activities",
+                      random: "just random ideas"};
 
   return(<ActivitiesListStyled>
         <li onClick={() => {setMenuOpen((prev) => !prev)}}>
