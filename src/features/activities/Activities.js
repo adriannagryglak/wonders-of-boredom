@@ -1,80 +1,62 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import { ActivitiesStyled, ActivitiesWrapperStyled, ActivityStyled } from "./ActivitiesStyled";
-import { gsap } from "gsap";
+import { useEffect, useRef, useContext, useState } from "react";
+import { ActivitiesStyled, ActivitiesWrapperStyled, ActivityStyled, ActivitiesMenusWrapperStyled} from "./ActivitiesStyled";
+import { gsap, } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
 import ActivitiesContext from "./ActivitiesContext";
 import ActivitiesMenu from "./ActivitiesMenu";
-import ActivitiesForm from "./ActivitiesForm";
+import ActivitiesTagsMenu from "./ActivitiesTagsMenu";
 import { getRandomInt, shuffleArray } from "../../utils";
 
 export default function Activities({ display }) {
-
   gsap.registerPlugin(ScrollTrigger);
   const activitiesRef = useRef(null);
-  const { activities, loading, errors, filterActivities } = useContext(ActivitiesContext);
-  const [sortType, setSortType] = useState("top");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [filter, setFilter] = useState({category: "", tags: []});
-  
-  function handleCategoryChange(event){
-    setFilter(prev=> {
-        return {
-            ...prev, 
-            // WHY NOT WOKRING category: prev.category == event.target.value ? null : event.target.value
-            category: event.target.value,
-        }
-    }) 
-}
 
-function handleTagChange(event){
-    setFilter(prev=>{
-        const currentTags= prev.tags.includes(event.target.name) ? prev.tags.filter(tag=> tag!== event.target.name) : prev.tags.concat(event.target.name);
-        return{
-            ...prev, 
-            tags: currentTags,
-        }
-    }); 
-}
+  const { activities, loading, errors, setFilter } = useContext(ActivitiesContext);
 
-useEffect(()=>{
-    filterActivities(filter);
-    //eslint-disable-next-line
-}, [filter]);
+  const sorts = ["top rated activities", "least liked activities", "just random ideas"];
+  const categories = ["outdoor", "solo", "all"];
+  const tags = ["active", "autumn", "cozy"];
 
-  useEffect(() => {
-  const activitiesAppear = gsap.to(activitiesRef.current, {
-    opacity: 1,
-    scrollTrigger: {
-      trigger: activitiesRef.current,
-      start: "top 60%",
-      end: "top 20%",
-      scrub: true,
-    },
-  });
-  return () => {
-    activitiesAppear.scrollTrigger.kill();
-  };
-});
+  const [sort, setSort] = useState(sorts[0]);
+  const [isOpen, setIsOpen] = useState({sorts: false, categories: false, tags: false});
 
-  let sortedActivities
-  if(activities){
-    sortedActivities =
-    sortType === "top"
-      ? activities.sort((a, b) => a.points - b.points)
-      : sortType === "least"
-      ? activities.sort((a, b) => a.points - b.points).reverse()
-      : shuffleArray(activities);
+  function handleCategoryChange(el){
+    setFilter(prev=> ({...prev, category: el}));
   }
 
+  useEffect(() => {
+    const activitiesAppear = gsap.to(activitiesRef.current, {
+      opacity: 1,
+      scrollTrigger: {
+        trigger: activitiesRef.current,
+        start: "top 60%",
+        end: "top 20%",
+      },
+    });
+    return () => {
+      activitiesAppear.scrollTrigger.kill();
+    };
+  });
+
+    const sortedActivities = activities && sorts.indexOf(sort) === 0 ? activities.sort((a, b) => a.points - b.points) 
+    : activities && sorts.indexOf(sort) === 1 ? activities.sort((a, b) => a.points - b.points).reverse()
+    : activities && shuffleArray(activities);
+    
   return (
-    <ActivitiesStyled ref={activitiesRef}>
-      <ActivitiesMenu setSortType={setSortType} sortType={sortType} setMenuOpen={setMenuOpen} menuOpen={menuOpen}/>
-      {!display && <ActivitiesForm filter={filter} handleCategoryChange={handleCategoryChange} handleTagChange={handleTagChange}/>}
+    <ActivitiesStyled ref={activitiesRef} blur={Object.values(isOpen).every(el=>!el)}>
+      <ActivitiesMenusWrapperStyled>
+        { display && <ActivitiesMenu data={sorts} action={(el)=>{setSort(el)}} choice={sorts[0]} isOpen={isOpen.sorts} setIsOpen={()=>{setIsOpen(prev =>({...prev, sorts: !prev.sorts}))}}/>}
+        { !display && <>
+                        <ActivitiesMenu  data={categories} action={handleCategoryChange} choice={categories[2]} isOpen={isOpen.categories} setIsOpen={()=>{setIsOpen(prev=>({...prev, categories: !prev.categories}))}}/>
+                        <ActivitiesMenu data={sorts} action={(el)=>{setSort(el)}} choice={sorts[0]} isOpen={isOpen.sorts} setIsOpen={()=>{setIsOpen(prev =>({...prev, sorts: !prev.sorts}))}}/>
+                        <ActivitiesTagsMenu data={tags} isOpen={isOpen.tags} setIsOpen={()=>{setIsOpen(prev=>({...prev, tags: !prev.tags}))}}/>
+                      </>}
+      </ActivitiesMenusWrapperStyled>
       { errors && <p>Sorry, we've got an issue "{errors}"</p>}
       { loading && <p>Loading, please wait...</p>}
-      <ActivitiesWrapperStyled menuOpen={menuOpen}>
-        { sortedActivities && sortedActivities.map((activity, index) => {
+      <ActivitiesWrapperStyled>
+        { activities ? sortedActivities.map((activity, index) => {
           return !display ? 
             <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
               <h2>{activity.name}</h2>
@@ -83,7 +65,7 @@ useEffect(()=>{
               <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
                 <h2>{activity.name}</h2>
               </ActivityStyled>);
-            })}
+            }) : !loading && <p>sorry, seems that we dont have anything yet </p>}
         {display && <Link to="/all">see more...</Link>}
       </ActivitiesWrapperStyled>
     </ActivitiesStyled>

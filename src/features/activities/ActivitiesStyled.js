@@ -11,24 +11,54 @@ export const ActivitiesStyled = styled.section`
   overflow: hidden;
   opacity: 0;
 
-  h1{
+  h1 {
     font-family: var(--cormorant);
     font-size: 1.5rem;
   }
 
   ${media.smallScreen} {
-    padding: 100px 40px;
+    padding: 100px 50px;
+  }
+
+  ${media.largeScreen} {
+    padding: 100px;
+  }
+
+  ::after {
+    position: absolute;
+    width: ${({ blur }) => (!blur ? "100%" : "0")};
+    height: ${({ blur }) => (!blur ? "100%" : "0")};
+    content: "";
+    backdrop-filter: blur(5px);
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+`;
+
+export const ActivitiesMenusWrapperStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 0;
+
+  ${media.smallScreen} {
+    flex-direction: row;
+    max-width: 992px;
+    margin: 0 auto 50px auto;
   }
 `;
 
 export const ActivitiesListStyled = styled.menu`
   font-family: var(--cormorant);
   font-size: 1.5rem;
-  margin: 1.5rem 0 7rem;
+  margin: 1.5rem 0;
   cursor: pointer;
   position: relative;
-  width: auto;
+  flex-grow: 1;
   height: 1.5rem;
+  list-style-type: none;
+  z-index: ${({ top }) => (top ? 10 : 0)};
 
   li {
     position: absolute;
@@ -39,16 +69,34 @@ export const ActivitiesListStyled = styled.menu`
     width: 90%;
     min-height: 100px;
 
+    &.tags-container {
+      display: flex;
+      align-items: flex-start;
+
+      div {
+        margin: 0 5px;
+        padding: 3px 5px;
+        font-size: 22px;
+
+        :hover {
+          font-weight: bold;
+        }
+
+        &.active {
+          background: white;
+          color: black;
+          border-radius: 50px;
+        }
+      }
+    }
+
+    :not(:first-child, .tags-container):hover{
+      font-weight: bold;
+    }
+
     :first-child {
       text-decoration: underline 1px;
       transform: translateX(-50%);
-
-      ${media.tablet} {
-        width: 50%;
-      }
-      ${media.smallScreen} {
-        width: unset;
-      }
     }
 
     :nth-child(2) {
@@ -58,9 +106,9 @@ export const ActivitiesListStyled = styled.menu`
         transform: translate(-50%, 60%);
       }
 
-      :hover {
-        font-weight: bold;
-      }
+      // :hover {
+      //   font-weight: bold;
+      // }
     }
 
     :nth-child(3) {
@@ -70,9 +118,9 @@ export const ActivitiesListStyled = styled.menu`
         transform: translate(-50%, 120%);
       }
 
-      :hover {
-        font-weight: bold;
-      }
+      // :hover {
+      //   font-weight: bold;
+      // }
     }
 
     &.closed {
@@ -95,8 +143,6 @@ export const ActivitiesWrapperStyled = styled.div`
   font-size: 1rem;
   text-align: left;
   transition: all ease 0.7s;
-  opacity: ${(props) => (props.menuOpen ? 0.5 : 1)};
-  filter: blur(${(props) => (props.menuOpen ? 5 : 0)}px);
 
   a {
     padding-top: 7rem;

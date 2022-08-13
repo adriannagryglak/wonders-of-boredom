@@ -8,8 +8,11 @@ export const ActivitiesContextProvider = ({ children }) => {
   const [activities, setActivities] = useState(null);
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState({category: "", tags: []});
 
   const activitiesCollectionRef = collection(db, "activities");
+
+  console.log(activities);
 
   useEffect(()=>{
     const getActivities = async () => {
@@ -28,25 +31,28 @@ export const ActivitiesContextProvider = ({ children }) => {
   }, []);
 
 
+  useEffect(()=>{
+      filterActivities(filter);
+      //eslint-disable-next-line
+  }, [filter]);
+
+
   async function addActivity(activity){
     //TODO should I also setActivities(prev => prev.concat(newActivity)) ?
     await addDoc(activitiesCollectionRef, activity);
   }
 
   async function filterActivities({category, tags}){
-    //TODO tags not working , complex query firebase
-
     let q;
-    if(category === "" && tags.length > 0){ //nie ma cat są tags
-      q = query(activitiesCollectionRef, where('tags', 'in', tags));
-    }else if(category !== "" && tags.length === 0){ // jest cat nie ma tags
-      q = query(activitiesCollectionRef, where(category, '==', true));
-    }else if(category === "" && tags.length === 0){ //nie ma cat nie ma tags
+    if(category === "all" && tags.length === 0){
       q = activitiesCollectionRef;
-    }else{ //jest cat jest tags
-      q = query(activitiesCollectionRef, where(category, '==', true), where('tags', 'array-contains', tags) )
+    }else if(category === "all" && tags.length > 0){
+      q = query(activitiesCollectionRef, where('tags', 'array-contains-any', tags));
+    }else if(category !== "all" && tags.length === 0){
+      q = query(activitiesCollectionRef, where(category, '==', true));
+    }else{
+      q = query(activitiesCollectionRef, where(category, '==', true), where('tags', 'array-contains-any', tags));
     }
-
     const data = await getDocs(q);
     setActivities(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   }
@@ -57,7 +63,7 @@ export const ActivitiesContextProvider = ({ children }) => {
     errors,
     loading,
     addActivity,
-    filterActivities,
+    setFilter,
   };
 
   return (<ActivitiesContext.Provider value={value}>{children}</ActivitiesContext.Provider>);

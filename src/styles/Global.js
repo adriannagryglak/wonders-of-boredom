@@ -40,6 +40,12 @@ body::-webkit-scrollbar {
     width: 1px;
 }
 
+.blurred {
+  opacity: 0.6;
+  filter: blur(5px);
+  pointer-events: none;
+}
+
 /* VARIABLES */
 
 #root{

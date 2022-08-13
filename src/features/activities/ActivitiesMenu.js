@@ -1,24 +1,22 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
-export default function ActivitiesList({ sortType, setSortType, menuOpen, setMenuOpen}) {
+import { useState } from "react";
 
-  const sortingTypes={top: "top rated activities", 
-                      least: "least liked activities",
-                      random: "just random ideas"};
+export default function ActivitiesMenu({ action, choice, data, setIsOpen, isOpen }) {
+  const [currentChoice, setChoice] = useState(choice);
 
-  return(<ActivitiesListStyled>
-        <li onClick={() => {setMenuOpen((prev) => !prev)}}>
-          {sortingTypes[sortType]}
-        </li>
-        {Object.keys(sortingTypes).map((type, i) => {
-          return type !== sortType ? (
-            <li className={!menuOpen ? "closed" : ""} key={i}
-                onClick={() => {
-                  if (type !== sortType) {
-                    setSortType(type);
-                  }
-                  setMenuOpen(false);
-                }}>{sortingTypes[type]}</li>
-          ) : null;
-        })}
-      </ActivitiesListStyled>);
+  return (<ActivitiesListStyled top={isOpen}> 
+            <li onClick={setIsOpen}>
+              {currentChoice}
+            </li>
+            {data.map((el, i) => {
+              return el !== currentChoice ? (
+                <li className={!isOpen ? "closed" : ""} key={i}
+                    onClick={() => {
+                      setChoice(el);
+                      action(el);
+                      setIsOpen();
+                    }}>{el}</li>
+              ) : null;
+            })}
+          </ActivitiesListStyled>);
 }
