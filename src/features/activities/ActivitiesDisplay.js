@@ -1,5 +1,5 @@
 import ActivitiesContext from "./ActivitiesContext";
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ActivitiesStyled, ActivitiesWrapperStyled, ActivitiesMenusWrapperStyled, ActivityStyled } from "./ActivitiesStyled";
 import SortingMenu from "./SortingMenu";
 import { getRandomInt } from "../../utils";
@@ -31,8 +31,8 @@ export default function ActivitiesDisplay() {
                                         <h2>{activity.name}</h2>
                                 </ActivityStyled>)
         })}
-        <Link to="/activities">see more...</Link>
       </ActivitiesWrapperStyled>
+      <Link to="/activities">see more...</Link>
     </ActivitiesStyled>
   );
 }

@@ -4,17 +4,28 @@ import { shimmer } from "../../styles/Global";
 
 export const ActivitiesStyled = styled.section`
   position: relative;
-  padding: ${({ isDisplay }) => (isDisplay ? 0 : 1)};
+  padding: 50px 20px;
   text-align: center;
   z-index: 10;
   max-width: 100%;
   overflow: hidden;
-  opacity: ${({ isDisplay }) => (isDisplay ? 1 : 0)};
   min-height: ${({ isDisplay }) => (isDisplay ? "none" : "100vh")};
 
-  p{
+  p {
     font-family: var(--cormorant);
     font-size: 1.5rem;
+  }
+
+  a {
+    font-family: var(--cormorant);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+
+    :hover {
+      font-weight: bold;
+    }
   }
 
   ${media.smallScreen} {
@@ -91,7 +102,7 @@ export const ActivitiesListStyled = styled.menu`
       }
     }
 
-    :not(:first-child, .tags-container):hover{
+    :not(:first-child, .tags-container):hover {
       font-weight: bold;
     }
 
@@ -125,6 +136,7 @@ export const ActivitiesListStyled = styled.menu`
 `;
 
 export const ActivitiesWrapperStyled = styled.div`
+  margin-bottom: 7rem;
   display: flex;
   flex-wrap: wrap;
   position: relative;
@@ -136,19 +148,6 @@ export const ActivitiesWrapperStyled = styled.div`
   font-size: 1rem;
   text-align: left;
   transition: all ease 0.7s;
-
-  a {
-    padding-top: 7rem;
-    font-family: var(--cormorant);
-    font-size: 1.5rem;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-
-    :hover {
-      font-weight: bold;
-    }
-  }
 `;
 
 export const ActivityStyled = styled.div`
