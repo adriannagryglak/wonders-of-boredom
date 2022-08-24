@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FooterStyled, FooterWrapperStyled } from "./FooterStyled";
+import { BlobStyled } from "../../styles/BlobStyled.js";
 
 export default function Footer(){
     gsap.registerPlugin(ScrollTrigger);
@@ -41,6 +42,7 @@ export default function Footer(){
             <p>Wonderfull things are coming. Soon...</p>
             <span>stay tuned</span>
         </FooterWrapperStyled>
+        <BlobStyled height="300px" plop={true} width="350px" bottom="115px" left="-170px" />
     </FooterStyled>
  );
 }

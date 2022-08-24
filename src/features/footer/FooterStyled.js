@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { media } from "../../styles/MediaQueries";
-import { pulseMain } from "../../styles/Global";
 
 export const FooterStyled = styled.footer`
   min-height: 130vh;
@@ -8,10 +7,6 @@ export const FooterStyled = styled.footer`
   font-size: 2rem;
   font-weight: 300;
   position: relative;
-
-  div {
-    position: unset;
-  }
 
   p {
     position: absolute;
@@ -30,21 +25,6 @@ export const FooterStyled = styled.footer`
     font-family: var(--cormorant);
   }
 
-  ::after {
-    position: absolute;
-    content: "";
-    height: 300px;
-    width: 350px;
-    background: linear-gradient(red, transparent),
-      linear-gradient(to top left, #9aff00, transparent),
-      linear-gradient(to top right, blue, transparent);
-    background-blend-mode: screen;
-    bottom: 115px;
-    left: -170px;
-    border-radius: 50%;
-    transform: rotate(225deg);
-    animation: ${pulseMain} 3s ease-in-out infinite alternate;
-  }
 `;
 
 export const FooterWrapperStyled = styled.div`
@@ -54,7 +34,6 @@ export const FooterWrapperStyled = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 0 50px;
-  position: fixed;
   z-index: 10;
 
   ${media.tablet} {

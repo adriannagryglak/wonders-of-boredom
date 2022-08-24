@@ -4,20 +4,21 @@ import { shimmer } from "../../styles/Global";
 
 export const ActivitiesStyled = styled.section`
   position: relative;
-  padding: 100px 10px;
+  padding: ${({ isDisplay }) => (isDisplay ? 0 : 1)};
   text-align: center;
   z-index: 10;
   max-width: 100%;
   overflow: hidden;
-  opacity: 0;
+  opacity: ${({ isDisplay }) => (isDisplay ? 1 : 0)};
+  min-height: ${({ isDisplay }) => (isDisplay ? "none" : "100vh")};
 
-  h1 {
+  p{
     font-family: var(--cormorant);
     font-size: 1.5rem;
   }
 
   ${media.smallScreen} {
-    padding: 100px 50px;
+    padding: 150px 70px;
   }
 
   ${media.largeScreen} {
@@ -75,7 +76,7 @@ export const ActivitiesListStyled = styled.menu`
 
       div {
         margin: 0 5px;
-        padding: 3px 5px;
+        padding: 0 10px 3px 10px;
         font-size: 22px;
 
         :hover {
@@ -105,10 +106,6 @@ export const ActivitiesListStyled = styled.menu`
       @media (min-width: 21.875rem) {
         transform: translate(-50%, 60%);
       }
-
-      // :hover {
-      //   font-weight: bold;
-      // }
     }
 
     :nth-child(3) {
@@ -117,10 +114,6 @@ export const ActivitiesListStyled = styled.menu`
       @media (min-width: 21.875rem) {
         transform: translate(-50%, 120%);
       }
-
-      // :hover {
-      //   font-weight: bold;
-      // }
     }
 
     &.closed {

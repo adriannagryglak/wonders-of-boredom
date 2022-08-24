@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { shimmer, pulseHeader } from "../../styles/Global"
+import { shimmer } from "../../styles/Global"
 import { media } from "../../styles/MediaQueries";
 
 export const HeaderStyled = styled.header`
-  min-height: 150vh;
+  min-height: 200vh;
   position: relative;
   font-family: var(--cormorant);
   font-size: 1.5rem;
@@ -14,26 +14,7 @@ export const HeaderStyled = styled.header`
     text-align: right;
     font-size: 1.2rem;
   }
-
-  ::after {
-    position: absolute;
-    content: "";
-    height: 400px;
-    width: 250px;
-    background: linear-gradient(red, transparent),
-      linear-gradient(to top left, #9aff00, transparent),
-      linear-gradient(to top right, blue, transparent);
-    background-blend-mode: screen;
-    top: -70px;
-    right: -40px;
-    border-radius: 50%;
-    filter: blur(50px);
-    transform: rotate(25deg);
-    animation: ${pulseHeader} 3s ease 1s infinite alternate;
-    position: fixed;
-  }
 `;
-
 
 export const HeaderWrapperStyled = styled.div`
   padding: 0 50px;

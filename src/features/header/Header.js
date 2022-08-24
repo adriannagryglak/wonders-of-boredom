@@ -2,6 +2,7 @@ import { HeaderStyled, ShimmeringArrows, HeaderWrapperStyled } from "./HeaderSty
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { BlobStyled } from "../../styles/BlobStyled";
 
 export default function Headers(){
     gsap.registerPlugin(ScrollTrigger);
@@ -33,10 +34,12 @@ export default function Headers(){
           arrowDisappear.scrollTrigger.kill();
           quoteDisappear.scrollTrigger.kill();
         };
-      }, []);
+
+      }, [shimmerRef, headerRef]);
       
  return (
     <HeaderStyled ref={headerRef}>
+        <BlobStyled height="400px" width="250px" rotate="25deg" top="-70px" right="-40px" fixed={true}/>
         <ShimmeringArrows ref={shimmerRef} />
         <HeaderWrapperStyled>
           <blockquote>

@@ -2,7 +2,8 @@ import { ActivitiesListStyled } from "./ActivitiesStyled";
 import { useState, useEffect, useContext } from "react";
 import ActivitiesContext from "./ActivitiesContext";
 
-export default function ActivitiesTagsMenu({ data, setIsOpen, isOpen }) {
+export default function TagsMenu({ setIsOpen, isOpen }) {
+    const data = ["active", "autumn", "cozy"];
     const [tags, setTags] = useState([]);
     const { setFilter } = useContext(ActivitiesContext);
 

@@ -68,7 +68,7 @@ export const shimmer = keyframes`
   }
 `;
 
-export const pulseHeader = keyframes`
+export const pulseBlob = keyframes`
   from {
     transform: rotate(25deg) scaleY(1);
     opacity: 1;
@@ -79,7 +79,7 @@ export const pulseHeader = keyframes`
   }
 `;
 
-export const pulseMain = keyframes`
+export const pulsePlop = keyframes`
 from {
   transform: rotate(225deg) scale(1);
   filter: blur(50px);
