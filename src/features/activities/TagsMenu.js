@@ -1,30 +1,36 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import ActivitiesContext from "./ActivitiesContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function TagsMenu({ setIsOpen, isOpen }) {
-    const data = ["active", "autumn", "cozy"];
-    const [tags, setTags] = useState([]);
-    const { setFilter } = useContext(ActivitiesContext);
+  const { tags } = useContext(ActivitiesContext);
+  const [searchParams, setSearchParams] = useSearchParams({});
+  const currentTags = searchParams.getAll("tags");
 
-    useEffect(()=>{
-        setFilter(prev=> {
-            return {
-                ...prev, 
-                tags: tags,
-            }
-        }) 
-        //eslint-disable-next-line
-    }, [tags]);
-
-  return ( <ActivitiesListStyled top={isOpen}>
-                <li onClick={setIsOpen}>tags</li>
-                <li className={!isOpen ? "closed tags-container" : "tags-container"}>
-                    {data.map((el, i) => {
-                        return <div key={i} className={tags.includes(el) ? "active": ""} onClick={()=>{
-                        setTags(prev=> prev.includes(el) ? prev.filter(tag => tag !== el) : prev.concat(el));
-                        }}>{el}</div>
-                    })}
-                </li>
-            </ActivitiesListStyled>);
+  return (
+    <ActivitiesListStyled top={isOpen}>
+      <li onClick={setIsOpen}>tags</li>
+      <li className={!isOpen ? "closed tags-container" : "tags-container"}>
+        {tags.map((tag, i) => {
+          return (
+            <div
+              key={i}
+              className={currentTags.includes(tag) ? "active" : ""}
+              onClick={() => {
+                setSearchParams({
+                  category: searchParams.get("category"),
+                  tags: currentTags.includes(tag)
+                    ? currentTags.filter((el) => tag !== el)
+                    : currentTags.concat(tag),
+                });
+              }}
+            >
+              {tag}
+            </div>
+          );
+        })}
+      </li>
+    </ActivitiesListStyled>
+  );
 }

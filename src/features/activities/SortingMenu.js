@@ -1,13 +1,11 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
-import { useState, useContext } from "react";
 import ActivitiesContext from "./ActivitiesContext";
-import { shuffleArray } from "../../utils";
+import { useContext } from "react";
 
-export default function SortingMenu({isOpen, setIsOpen}) {
-  const { setActivities } = useContext(ActivitiesContext);
-  const sorts = ["top rated activities", "least liked activities", "just random ideas"];
-  const [sorting, setSorting] = useState(sorts[0]);
-
+export default function SortingMenu({isOpen, setIsOpen }) {
+  const { sorting, setSorting } = useContext(ActivitiesContext);
+  const sorts = ["top rated activities", "least liked activities"];
+ 
   return (<ActivitiesListStyled top={isOpen}>
             <li onClick={setIsOpen}>
               {sorting}
@@ -17,12 +15,9 @@ export default function SortingMenu({isOpen, setIsOpen}) {
                 <li className={!isOpen ? "closed" : ""} key={i}
                     onClick={() => {
                       setSorting(el);
-                      setActivities(prev => {
-                        return sorting.includes("least") ? prev.sort((a, b) => a.points - b.points) : sorting.includes("top") ? prev.sort((a, b) => a.points - b.points).reverse() : shuffleArray(prev) ;
-                      })
                       setIsOpen();
                     }}>{el}</li>
               ) : null;
             })}
           </ActivitiesListStyled>);
-}
+} 

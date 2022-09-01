@@ -1,30 +1,49 @@
-import ActivitiesContext from "./ActivitiesContext";
-import { useContext, useState, useEffect } from "react";
+import { db } from "../../firebase-config";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { useState, useEffect, useContext } from "react";
 import { ActivitiesStyled, ActivitiesWrapperStyled, ActivitiesMenusWrapperStyled, ActivityStyled } from "./ActivitiesStyled";
 import SortingMenu from "./SortingMenu";
 import { getRandomInt } from "../../utils";
-import { gsap, } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router-dom";
 import Message from "./Message";
+import ActivitiesContext from "./ActivitiesContext";
 
 export default function ActivitiesDisplay() {
-    gsap.registerPlugin(ScrollTrigger);
-    const { activities, filter, setFilter } = useContext(ActivitiesContext);
-    const [isOpen, setIsOpen] = useState(false);
+
+    const [activities, setActivities] = useState();
+    const [errors, setErrors] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { sorting } = useContext(ActivitiesContext);
+    const activitiesCollectionRef = collection(db, "activities");
 
     useEffect(()=>{
-     if(filter.category !== "all" || filter.tags.length > 0){
-        setFilter({category: "all", tags: []});
-     }   
-    });
+     
+      const getData = async()=>{
+        const q = sorting.includes("top") ? 
+        query(activitiesCollectionRef, orderBy("points", "desc"), limit(3)) 
+        : query(activitiesCollectionRef, orderBy("points"), limit(3));
+        try{
+          const data = await getDocs(q);
+          setActivities(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        }catch(e){
+          //TODO catch all errors
+          setErrors(e.message);
+        }finally{
+          setLoading(false);
+        }
+      }
+      getData();
+      
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sorting]);
 
   return (
-    <ActivitiesStyled blur={!isOpen} isDisplay={true}>
+    <ActivitiesStyled blur={!isMenuOpen} isDisplay={true}>
       <ActivitiesMenusWrapperStyled>
-        <SortingMenu isOpen={isOpen} setIsOpen={()=>{setIsOpen(prev => !prev)}}/>
+        <SortingMenu isOpen={isMenuOpen} setIsOpen={()=>{setIsMenuOpen(prev => !prev)}} />
       </ActivitiesMenusWrapperStyled>
-      <Message />
+        <Message errors={errors} loading={loading}/>
       <ActivitiesWrapperStyled>
         {activities && activities.map((activity, index) =>{
             return( index < 3 && <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>

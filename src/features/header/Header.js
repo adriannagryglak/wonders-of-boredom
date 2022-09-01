@@ -35,7 +35,7 @@ export default function Headers(){
           quoteDisappear.scrollTrigger.kill();
         };
 
-      }, [shimmerRef, headerRef]);
+      });
       
  return (
     <HeaderStyled ref={headerRef}>

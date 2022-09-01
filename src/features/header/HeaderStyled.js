@@ -39,7 +39,7 @@ export const HeaderWrapperStyled = styled.div`
 
 export const ShimmeringArrows = styled.div`
   position: absolute;
-  top: 63%;
+  top: 45%;
   left: 50%;
   transform: translateX(-50%);
   height: 25px;

@@ -14,6 +14,7 @@ export const ActivitiesStyled = styled.section`
   p {
     font-family: var(--cormorant);
     font-size: 1.5rem;
+    margin-bottom: 3rem;
   }
 
   a {
