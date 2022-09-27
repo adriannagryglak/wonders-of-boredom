@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react";
 
-export default function InteractiveElement() {
+export default function InteractiveElement(props) {
   const [x, setX] = useState();
   const [y, setY] = useState();
   const [windowWidth, setWindowWidth] = useState();
@@ -70,11 +69,15 @@ export default function InteractiveElement() {
 
   let output = {
     x: {
-      start: 50,
+      start: -50,
       end: 0,
       current: 0,
     },
-    y: { start: 50, end: 0, current: 0 },
+    y: { 
+      start: -200, 
+      end: 0, 
+      current: 0, 
+    },
   };
 
   output.x.range = output.x.end - output.x.start;
@@ -83,6 +86,13 @@ export default function InteractiveElement() {
   output.y.range = output.y.end - output.y.start;
   output.y.current = output.y.end - input.mouseY.fraction * output.y.range;
 
-  return 
-    //element witch transform={`translate(${output.x.current}px,${output.y.current}px)`}
+  return (
+    <div
+      style={{
+        transform: `translate(${output.x.current}px,${output.y.current}px)`,
+      }}
+    >
+      {props.children}
+    </div>
+  );
 }

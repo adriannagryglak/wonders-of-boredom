@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import { getActivities, selectActivitiesState, setErrors } from "./activitiesSlice";
 import { useSearchParams } from "react-router-dom";
+import InteractiveElement from "./InteractiveElement";
+
 
 export default function Activities() {
   const { activities, loading, errors } = useSelector(selectActivitiesState);
@@ -26,7 +28,6 @@ export default function Activities() {
   const blobRef = useRef(null);
 
   useEffect(() => {
-    // TODO add moving away from cursor
     gsap.to([blobRef.current, plopRef.current], {
       duration: 1,
       stagger: 0.8,
@@ -60,8 +61,11 @@ export default function Activities() {
 
   return (
     <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+      <InteractiveElement/>
       <ActivitiesStyled blur={Object.values(isOpen).every(el=>!el)} >
-        <BlobStyled ref={blobRef} height="400px" width="250px" top="-10%" right="10%" />
+        <InteractiveElement>
+          <BlobStyled ref={blobRef} height="400px" width="250px" right="-15%"/>
+        </InteractiveElement>
         
         <ActivitiesMenusWrapperStyled>
           <CategoriesMenu isOpen={isOpen.categories} setIsOpen={()=>{setIsOpen(prev=>({...prev, categories: !prev.categories}))}}/>
