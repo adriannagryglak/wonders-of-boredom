@@ -7,14 +7,14 @@ export const ActivitiesContext = createContext(null);
 
 export const ActivitiesContextProvider = ({ children }) => {
   
-
   const activitiesCollectionRef = collection(db, "activities");
   const [activities, setActivities] = useState(null);
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(true);
+  
   const [searchParams, setSearchParams] = useSearchParams({category: "all", tags: []});
   const [sorting, setSorting] = useState("top rated activities");
-  
+
   const categories = ["outdoor", "solo", "all"];
   const tags = ["active", "autumn", "cozy"];
 
@@ -22,31 +22,26 @@ export const ActivitiesContextProvider = ({ children }) => {
     let currentCategory = searchParams.get('category');
     let currentTags = [...new Set(searchParams.getAll('tags').filter(el => tags.includes(el)))];
     let currentParams;
-
+    
     if(currentCategory === "all"){
-      currentParams = {tags: currentTags};
+      currentParams = {tags: currentTags, };
     }else if(!categories.includes(currentCategory)){
       setErrors(`"${currentCategory}" category doesn't exist... yet`);
-      currentParams = {tags: currentTags};
+      currentParams = {tags: currentTags };
     }else{
       setErrors(null);
-      currentParams = {category: currentCategory, tags: currentTags}
+      currentParams = {category: currentCategory, tags: currentTags }
     }
     
-    setSearchParams(currentParams);
+    setSearchParams(currentParams); 
     filterActivities(currentParams);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
-
-
-  // async function addActivity(activity){
-  //   //TODO should I also setActivities(prev => prev.concat(newActivity)) ?
-  //   await addDoc(activitiesCollectionRef, activity);
-  // }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]); 
 
   async function filterActivities({category, tags}){
-   
     let q;
+
     if(!category && tags.length === 0){
       q = activitiesCollectionRef;
     }else if(!category && tags.length > 0){
@@ -66,16 +61,17 @@ export const ActivitiesContextProvider = ({ children }) => {
       setLoading(false);
     }
   }
-
+ 
   const value = {
     //TODO- make sure its optimal for performance
     activities,
+    setActivities,
     errors,
     loading,
     sorting,
     setSorting,
     tags, 
-    categories
+    categories,
   };
 
   return (<ActivitiesContext.Provider value={value}>{children}</ActivitiesContext.Provider>);

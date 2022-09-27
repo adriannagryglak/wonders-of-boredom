@@ -1,11 +1,10 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
-import { useContext } from "react";
-import ActivitiesContext from "./ActivitiesContext";
+
 import { useSearchParams } from "react-router-dom";
 
-export default function TagsMenu({ setIsOpen, isOpen }) {
-  const { tags } = useContext(ActivitiesContext);
-  const [searchParams, setSearchParams] = useSearchParams({});
+export default function TagsMenu({ setIsOpen, isOpen}) {
+  const tags = ["active", "autumn", "cozy"];
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentTags = searchParams.getAll("tags");
 
   return (

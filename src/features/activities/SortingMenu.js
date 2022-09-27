@@ -1,10 +1,12 @@
 import { ActivitiesListStyled } from "./ActivitiesStyled";
-import ActivitiesContext from "./ActivitiesContext";
-import { useContext } from "react";
+import { useSelector, useDispatch  } from 'react-redux';
+import { sortActivities, chooseSorting, selectActivitiesState } from "./activitiesSlice";
 
 export default function SortingMenu({isOpen, setIsOpen }) {
-  const { sorting, setSorting } = useContext(ActivitiesContext);
-  const sorts = ["top rated activities", "least liked activities"];
+
+  const { sorting } = useSelector(selectActivitiesState);
+  const dispatch = useDispatch();
+  const sorts = ["top rated activities", "least liked activities", "some random ideas"];
  
   return (<ActivitiesListStyled top={isOpen}>
             <li onClick={setIsOpen}>
@@ -14,8 +16,9 @@ export default function SortingMenu({isOpen, setIsOpen }) {
               return el !== sorting ? (
                 <li className={!isOpen ? "closed" : ""} key={i}
                     onClick={() => {
-                      setSorting(el);
+                      dispatch(chooseSorting(el));
                       setIsOpen();
+                      dispatch(sortActivities(el));
                     }}>{el}</li>
               ) : null;
             })}

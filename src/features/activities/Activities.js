@@ -1,59 +1,85 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect} from "react";
+import { useSelector, useDispatch  } from 'react-redux';
 import { ActivitiesStyled, ActivitiesWrapperStyled, ActivityStyled, ActivitiesMenusWrapperStyled} from "./ActivitiesStyled";
-import ActivitiesContext from "./ActivitiesContext";
 import SortingMenu from "./SortingMenu";
 import CategoriesMenu from "./CategoriesMenu"
 import TagsMenu from "./TagsMenu";
-import { getRandomInt, shuffleArray } from "../../utils";
+import { getRandomInt } from "../../utils";
 import Message from "./Message";
 import { BlobStyled } from "../../styles/BlobStyled.js";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
+import { getActivities, selectActivitiesState, setErrors } from "./activitiesSlice";
+import { useSearchParams } from "react-router-dom";
 
 export default function Activities() {
-
-  const { activities, errors, loading, sorting } = useContext(ActivitiesContext);
+  const { activities, loading, errors } = useSelector(selectActivitiesState);
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams({category: "all", tags: []});
   const [isOpen, setIsOpen] = useState({sorts: false, categories: false, tags: false});
-  const blob1Ref = useRef(null);
+
+  const categories = ["outdoor", "solo", "all"];
+  const tags = ["active", "autumn", "cozy"];
+  
+  const plopRef = useRef(null);
+  const blobRef = useRef(null);
 
   useEffect(() => {
-    //add moving away from cursor
-    gsap.to(blob1Ref.current, 1.5, {
-      opacity: 1,
+    // TODO add moving away from cursor
+    gsap.to([blobRef.current, plopRef.current], {
+      duration: 1,
       stagger: 0.8,
-      delay: 1,
-      immediateRender: false
+      opacity: 1,
+      delay: 1
     });
-  }, []);
 
-  let sortedActivities;
-  if(activities){
-  sortedActivities = sorting.includes("top") ? 
-  activities.sort((a, b) => a.points - b.points).reverse() 
-  : sorting.includes("least") ? 
-  activities.sort((a, b) => a.points - b.points) 
-  : shuffleArray(activities);
-  }
+    dispatch(getActivities);
+  }, [dispatch]);
+
+  useEffect(()=>{
+    let currentCategory = searchParams.get('category');
+    let currentTags = [...new Set(searchParams.getAll('tags').filter(el => tags.includes(el)))];
+    let currentParams;
+    
+    if(currentCategory === "all"){
+      currentParams = {tags: currentTags, };
+    }else if(!categories.includes(currentCategory)){
+      setErrors(`"${currentCategory}" category doesn't exist... yet`);
+      currentParams = {tags: currentTags };
+    }else{
+      setErrors(null);
+      currentParams = {category: currentCategory, tags: currentTags }
+    }
+    
+    setSearchParams(currentParams); 
+    dispatch(getActivities(currentParams));
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]); 
 
   return (
     <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
       <ActivitiesStyled blur={Object.values(isOpen).every(el=>!el)} >
-        <BlobStyled ref={blob1Ref} height="400px" width="250px" top="-10%" right="10%" plop={true} style={{opacity: 0}}/>
+        <BlobStyled ref={blobRef} height="400px" width="250px" top="-10%" right="10%" />
+        
         <ActivitiesMenusWrapperStyled>
           <CategoriesMenu isOpen={isOpen.categories} setIsOpen={()=>{setIsOpen(prev=>({...prev, categories: !prev.categories}))}}/>
           <SortingMenu isOpen={isOpen.sorts} setIsOpen={()=>{setIsOpen(prev =>({...prev, sorts: !prev.sorts}))}} />
           <TagsMenu isOpen={isOpen.tags} setIsOpen={()=>{setIsOpen(prev=>({...prev, tags: !prev.tags}))}}/>
         </ActivitiesMenusWrapperStyled>
+        
         <Message errors={errors} loading={loading}/>
         <ActivitiesWrapperStyled>
-          { activities && sortedActivities.map(activity => {
+          
+          {activities && activities.map(activity => {
             return (
                 <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
                   <h2>{activity.name}</h2>
                 </ActivityStyled>) }) }
+                
         </ActivitiesWrapperStyled>
-        <BlobStyled height="500px" width="550px" top="80%" right="70%" plop={true} style={{opacity: 0}}/>
+        <BlobStyled ref={plopRef} height="500px" width="550px" top="80%" right="70%" plop={true} style={{opacity: 0}}/>
         <Link to="/" style={{marginLeft: "50%"}}>go back</Link>
       </ActivitiesStyled>
     </motion.div>
