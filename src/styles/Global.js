@@ -14,15 +14,35 @@ const GlobalStyles = createGlobalStyle`
 #root{
   background-color: #252523;
   color: #ededed;
-
+  font-family: var(--cormorant);
+  overflow: hidden;
+  
   ul{
     list-style-type: none;
   }
   
   a{
+    display: block;
+    font-family: var(--cormorant);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 100%;
     text-decoration: none;
     color: inherit;
+    transition: font-weight 0.5s ease;
+    z-index: 100;
+    position: relative;
+  
+    :hover {
+      font-weight: bold;
+    }
+
+    &.link__go-back{
+      text-align: right;
+      padding-right: 50px;
+    }
   }
+  
 }
 
 body::-webkit-scrollbar {
@@ -55,6 +75,8 @@ body::-webkit-scrollbar {
     --garamond: 'EB Garamond', serif;
     --nanum: 'Nanum Myeongjo', serif;
     --prata: 'Prata', serif;
+
+    /*TODO- colors*/
 }
 
 `;

@@ -2,6 +2,8 @@ import Header from "../features/header/Header";
 import Footer from "../features/footer/Footer";
 import ActivitiesDisplay from "../features/activities/ActivitiesDisplay";
 import { motion } from "framer-motion";
+import CreateActivityDisplay from "../features/create-activity/CreateActivityDisplay";
+
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
       <Header />
       <main>
         <ActivitiesDisplay />
+        <CreateActivityDisplay />
       </main>
       <Footer />
     </motion.div>

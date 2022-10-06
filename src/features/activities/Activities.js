@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import { getActivities, selectActivitiesState, setErrors } from "./activitiesSlice";
 import { useSearchParams } from "react-router-dom";
-import InteractiveElement from "./InteractiveElement";
+import InteractiveElement from "../../components/InteractiveElement";
 
 
 export default function Activities() {
@@ -61,8 +61,8 @@ export default function Activities() {
 
   return (
     <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
-      <InteractiveElement/>
       <ActivitiesStyled blur={Object.values(isOpen).every(el=>!el)} >
+
         <InteractiveElement>
           <BlobStyled ref={blobRef} height="400px" width="250px" right="-15%"/>
         </InteractiveElement>
@@ -74,17 +74,18 @@ export default function Activities() {
         </ActivitiesMenusWrapperStyled>
         
         <Message errors={errors} loading={loading}/>
+
         <ActivitiesWrapperStyled>
-          
           {activities && activities.map(activity => {
             return (
                 <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
                   <h2>{activity.name}</h2>
                 </ActivityStyled>) }) }
-                
         </ActivitiesWrapperStyled>
+
         <BlobStyled ref={plopRef} height="500px" width="550px" top="80%" right="70%" plop={true} style={{opacity: 0}}/>
-        <Link to="/" style={{marginLeft: "50%"}}>go back</Link>
+        <Link to="/" className="link__go-back">go back</Link>
+
       </ActivitiesStyled>
     </motion.div>
   );

@@ -6,7 +6,6 @@ import AnimatedRoutes from './components/AnimatedRoutes';
 import { store } from './store.js';
 import { Provider } from 'react-redux';
 
-//store.dispatch(getActivitites) ?!??!
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

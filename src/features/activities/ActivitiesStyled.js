@@ -12,21 +12,12 @@ export const ActivitiesStyled = styled.section`
   min-height: ${({ isDisplay }) => (isDisplay ? "none" : "100vh")};
 
   p {
-    font-family: var(--cormorant);
     font-size: 1.5rem;
     margin-bottom: 3rem;
   }
 
-  a {
-    font-family: var(--cormorant);
-    font-size: 1.5rem;
-    cursor: pointer;
-    width: 100%;
+  .activites-link__see-more{
     text-align: center;
-
-    :hover {
-      font-weight: bold;
-    }
   }
 
   ${media.smallScreen} {
@@ -63,7 +54,6 @@ export const ActivitiesMenusWrapperStyled = styled.div`
 `;
 
 export const ActivitiesListStyled = styled.menu`
-  font-family: var(--cormorant);
   font-size: 1.5rem;
   margin: 1.5rem 0;
   cursor: pointer;
@@ -137,7 +127,7 @@ export const ActivitiesListStyled = styled.menu`
 `;
 
 export const ActivitiesWrapperStyled = styled.div`
-  margin-bottom: 7rem;
+  margin-bottom: 5rem;
   display: flex;
   flex-wrap: wrap;
   position: relative;

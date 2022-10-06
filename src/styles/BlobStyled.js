@@ -23,6 +23,6 @@ export const BlobStyled = styled.div`
     animation: ${({ plop }) => (plop ? pulsePlop : pulseBlob)} 3s linear 1s
      infinite alternate;
     position: ${({ fixed }) => (fixed ? "fixed" : "absolute")};
-   
+ 
   }
 `;

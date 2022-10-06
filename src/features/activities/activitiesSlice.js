@@ -30,6 +30,7 @@ export const getActivities = createAsyncThunk(
   }
 );
 
+
 const initialState = {
     activities: [],
     errors: null,
@@ -42,7 +43,6 @@ export const activitiesSlice = createSlice({
   initialState,
   reducers: {
     sortActivities: (state, action)=>{
-        console.log(action.payload);
         let sortedActivities = action.payload.includes("top") ? 
         state.activities.sort((a, b) => a.points - b.points).reverse()
         : action.payload.includes("least") ? 
@@ -72,7 +72,7 @@ export const activitiesSlice = createSlice({
         state.loading = false;
         state.activities = [];
         state.errors = action.error.message;
-      });
+      })
   },
 });
 

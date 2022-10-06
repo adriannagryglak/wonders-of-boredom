@@ -23,7 +23,6 @@ export const HeaderWrapperStyled = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  z-index: 1;
 
   ${media.tablet} {
     padding: 0 100px;

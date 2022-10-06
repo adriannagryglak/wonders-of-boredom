@@ -62,13 +62,13 @@ export default function ActivitiesDisplay() {
       </ActivitiesMenusWrapperStyled>
         <Message errors={errors} loading={loading}/>
       <ActivitiesWrapperStyled>
-        {activities && activities.map((activity, index) =>{
-            return( index < 3 && <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
+        {activities && activities.map((activity) =>{
+            return( <ActivityStyled key={activity.id} random={[getRandomInt(-100, 100),getRandomInt(-50, 50),getRandomInt(-30, 30),getRandomInt(-120, 120)]}>
                                         <h2>{activity.name}</h2>
                                 </ActivityStyled>)
         })}
       </ActivitiesWrapperStyled>
-      <Link to="/activities">see more...</Link>
+      <Link to="/activities" className="activites-link__see-more">see more...</Link>
     </ActivitiesStyled>
   );
 }
