@@ -6,8 +6,8 @@ const activitiesCollectionRef = collection(db, "activities");
 
 export const addActivity = createAsyncThunk(
   "activities/addActivity",
-  async (what) => {
-    await addDoc(activitiesCollectionRef, what);
+  async (newActivity) => {
+    await addDoc(activitiesCollectionRef, newActivity);
   }
 );
 
@@ -35,7 +35,7 @@ export const addingActivitySlice = createSlice({
       })
       .addCase(addActivity.fulfilled, (state) => {
         state.error = null;
-        state.message = "brawo, you contributed. may the lord open";
+        state.message = "Well done and thank you! Your idea will now be part of our ever-growing jar of wonders.";
       })
       .addCase(addActivity.rejected, (state, action) => {
         state.error = action.error.message;

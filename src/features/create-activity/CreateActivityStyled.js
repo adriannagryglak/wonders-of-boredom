@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { media } from "../../styles/MediaQueries";
+import { flicker } from "../../styles/Global";
 
 export const CreateActivityStyled = styled.section`
   min-height: 100vh;
@@ -77,7 +78,8 @@ export const CreatingFormStyled = styled.form`
       border-bottom: 1px solid white;
       color: white;
       width: 100%;
-      font-family: var(--cormorant);
+      font-family: var(--nanum);
+      font-size: 20px;
 
       :focus,
       :valid {
@@ -131,10 +133,6 @@ export const CreatingFormStyled = styled.form`
 
   }
 
-  p{
-    margin: 30px 0;
-  }
-
   button {
     text-transform: uppercase;
     background: none;
@@ -158,6 +156,16 @@ export const CreatingFormStyled = styled.form`
     font-size: 20px;
     font-family: var(--nanum);
     margin-bottom: 30px;
+
+    ${media.tablet} {
+      font-size: 24px;
+    }
+  }
+
+  .creating-form--error{
+    margin-top: 60px;
+    font-size: 20px;
+    animation: ${flicker} 1.5s ease-in infinite alternate;
   }
 `;
 

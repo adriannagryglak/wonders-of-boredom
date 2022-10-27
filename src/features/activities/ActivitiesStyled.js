@@ -1,6 +1,5 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { media } from "../../styles/MediaQueries";
-import { shimmer } from "../../styles/Global";
 
 export const ActivitiesStyled = styled.section`
   position: relative;
@@ -10,6 +9,8 @@ export const ActivitiesStyled = styled.section`
   max-width: 100%;
   overflow: hidden;
   min-height: ${({ isDisplay }) => (isDisplay ? "none" : "100vh")};
+  pointer-events: ${({ isModal }) => isModal ? "none" : "auto"}; 
+  cursor: pointer;
 
   p {
     font-size: 1.5rem;
@@ -30,8 +31,8 @@ export const ActivitiesStyled = styled.section`
 
   ::after {
     position: absolute;
-    width: ${({ blur }) => (!blur ? "100%" : "0")};
-    height: ${({ blur }) => (!blur ? "100%" : "0")};
+    width: ${({ blur }) => (blur)};
+    height: ${({ blur }) => (blur)};
     content: "";
     backdrop-filter: blur(5px);
     top: 0;
@@ -46,6 +47,7 @@ export const ActivitiesMenusWrapperStyled = styled.div`
   flex-direction: column;
   padding: 50px 0;
 
+  
   ${media.smallScreen} {
     flex-direction: row;
     max-width: 992px;
@@ -139,110 +141,4 @@ export const ActivitiesWrapperStyled = styled.div`
   font-size: 1rem;
   text-align: left;
   transition: all ease 0.7s;
-`;
-
-export const ActivityStyled = styled.div`
-  margin: 40px 30px;
-  align-self: normal;
-  min-width: 200px;
-  max-width: 400px;
-  flex: 1;
-  position: relative;
-
-  ::after {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-    content: "";
-    height: 25px;
-    width: 25px;
-    background: linear-gradient(red, transparent),
-      linear-gradient(to top left, #9aff00, transparent),
-      linear-gradient(to top right, blue, transparent);
-    background-blend-mode: screen;
-    top: 20%;
-    right: 20%;
-    border-radius: 50%;
-    filter: blur(5px);
-    transition: transform ease 1s, opacity ease 0.3s;
-  }
-
-  ::before {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-    content: "";
-    height: 10px;
-    width: 10px;
-    background: #d789db;
-    top: 50%;
-    right: 50%;
-    border-radius: 50%;
-    filter: blur(5px);
-    transition: transform ease 1s, opacity ease 0.5s;
-  }
-
-  :hover::before {
-    opacity: 0.7;
-    transform: translateX(${({ random }) => random[0]}px)
-      translateY(${({ random }) => random[3]}px);
-    animation: ${shimmer} 1s 1s ease alternate infinite;
-  }
-
-  :hover::after {
-    opacity: 0.7;
-    transform: translateX(${({ random }) => random[1]}px)
-      translateY(${({ random }) => random[2]}px);
-    animation: ${shimmer} 1s 1.5s ease alternate infinite;
-  }
-
-  h2 {
-    position: relative;
-
-    ::after {
-      position: absolute;
-      z-index: -1;
-      content: "";
-      height: 25px;
-      width: 25px;
-      background: linear-gradient(red, transparent),
-        linear-gradient(to top left, #9aff00, transparent),
-        linear-gradient(to top right, blue, transparent);
-      background-blend-mode: screen;
-      top: 70%;
-      right: 70%;
-      border-radius: 50%;
-      filter: blur(4px);
-      transition: transform ease 0.7s, opacity ease 0.5s;
-      opacity: 0;
-    }
-
-    ::before {
-      position: absolute;
-      z-index: -1;
-      content: "";
-      height: 20px;
-      width: 20px;
-      background: #b4e097;
-      top: 20%;
-      right: 10%;
-      border-radius: 50%;
-      filter: blur(8px);
-      transition: transform ease 0.7s, opacity ease 0.3s;
-      opacity: 0;
-    }
-
-    :hover::before {
-      opacity: 1;
-      transform: translateX(${({ random }) => random[2]}px)
-        translateY(${({ random }) => random[0]}px);
-      animation: ${shimmer} 1.5s 1s ease alternate infinite;
-    }
-    :hover::after {
-      opacity: 1;
-      transform: translateX(${({ random }) => random[3]}px)
-        translateY(${({ random }) => random[1]}px);
-      animation: ${shimmer} 2s ease alternate infinite;
-    }
-  }
 `;

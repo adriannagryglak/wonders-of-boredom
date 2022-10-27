@@ -9,13 +9,16 @@ export default function SortingMenu({isOpen, setIsOpen }) {
   const sorts = ["top rated activities", "least liked activities", "some random ideas"];
  
   return (<ActivitiesListStyled top={isOpen}>
-            <li onClick={setIsOpen}>
+            <li onClick={e => {
+              e.stopPropagation(); 
+              setIsOpen();}}>
               {sorting}
             </li>
             {sorts.map((el, i) => {
               return el !== sorting ? (
                 <li className={!isOpen ? "closed" : ""} key={i}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       dispatch(chooseSorting(el));
                       setIsOpen();
                       dispatch(sortActivities(el));

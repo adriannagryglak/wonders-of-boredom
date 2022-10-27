@@ -8,7 +8,10 @@ export default function CategoriesMenu({isOpen, setIsOpen}) {
     const categories = ["outdoor", "solo", "all"];
     
   return (<ActivitiesListStyled top={isOpen}> 
-            <li onClick={setIsOpen}>
+            <li onClick={e=>{
+              e.stopPropagation();
+              setIsOpen();
+            }}>
               {currentCategory}
             </li>
             {categories.map((el,i) => {

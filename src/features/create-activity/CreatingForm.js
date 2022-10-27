@@ -51,7 +51,7 @@ export default function CreateActivity() {
       dispatch(setError("please sign your idea"));
     } else {
       dispatch(setError(null));
-      dispatch(addActivity(formData));
+      dispatch(addActivity({...formData, points: 0}));
     }
   }
 
@@ -128,7 +128,7 @@ export default function CreateActivity() {
               <label htmlFor="outdoor">is your activity outdoorsy?</label>
               <div className="creating-form--yes-no">
                 <span
-                  style={{ fontWeight: formData.outdoor ? "600" : "300" }}
+                  style={{ fontWeight: formData.outdoor ? "700" : "300" }}
                   onClick={() => {
                     setFormData((prev) => ({ ...prev, outdoor: true }));
                   }}
@@ -137,7 +137,7 @@ export default function CreateActivity() {
                 </span>
                 /
                 <span
-                  style={{ fontWeight: formData.outdoor ? "300" : "600" }}
+                  style={{ fontWeight: formData.outdoor ? "300" : "700" }}
                   onClick={() => {
                     setFormData((prev) => ({ ...prev, outdoor: false }));
                   }}
@@ -150,7 +150,7 @@ export default function CreateActivity() {
               <label htmlFor="solo">or perfect for some alone time?</label>
               <div className="creating-form--yes-no">
                 <span
-                  style={{ fontWeight: formData.solo ? "600" : "300" }}
+                  style={{ fontWeight: formData.solo ? "700" : "300" }}
                   onClick={() => {
                     setFormData((prev) => ({ ...prev, solo: true }));
                   }}
@@ -159,7 +159,7 @@ export default function CreateActivity() {
                 </span>
                 /
                 <span
-                  style={{ fontWeight: formData.solo ? "300" : "600" }}
+                  style={{ fontWeight: formData.solo ? "300" : "700" }}
                   onClick={() => {
                     setFormData((prev) => ({ ...prev, solo: false }));
                   }}
@@ -175,13 +175,13 @@ export default function CreateActivity() {
                   return (
                     <li
                       style={{
-                        fontWeight: formData.tags.includes(tag.toUpperCase())
+                        fontWeight: formData.tags.includes(tag)
                           ? "600"
                           : "300",
                       }}
                       key={i}
                       onClick={(e) => {
-                        handleTagClick(e.target.innerText);
+                        handleTagClick(e.target.innerText.toLowerCase());
                       }}
                     >
                       {tag}
@@ -190,7 +190,7 @@ export default function CreateActivity() {
                 })}
               </ul>
             </div>
-            {error && <p>{error}</p>}
+            {error && <p className="creating-form--error">{error}</p>}
             <button
               onClick={(e) => {
                 sendForm(e);

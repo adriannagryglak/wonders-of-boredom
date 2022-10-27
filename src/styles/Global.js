@@ -11,7 +11,8 @@ const GlobalStyles = createGlobalStyle`
   box-sizing: border-box;
 }
 
-#root{
+#root, 
+#portal{
   background-color: #252523;
   color: #ededed;
   font-family: var(--cormorant);
@@ -29,7 +30,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
     text-decoration: none;
     color: inherit;
-    transition: font-weight 0.5s ease;
+    transition: all 0.5s ease-in-out;
     z-index: 100;
     position: relative;
   
@@ -41,8 +42,12 @@ const GlobalStyles = createGlobalStyle`
       text-align: right;
       padding-right: 50px;
     }
+
+    &.shining{
+      text-shadow: 4px 4px 6px rgba(255, 255, 255, 1);
+      font-weight: bold;
+    }
   }
-  
 }
 
 body::-webkit-scrollbar {
@@ -66,9 +71,19 @@ body::-webkit-scrollbar {
   pointer-events: none;
 }
 
+#portal{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background: none;
+}
+
 /* VARIABLES */
 
-#root{
+#root, 
+#portal{
 
     /* fonts */
     --cormorant: 'Cormorant SC', serif;
@@ -88,6 +103,15 @@ export const shimmer = keyframes`
   to {
     opacity: 0;
   }
+`;
+
+export const flicker = keyframes`
+from {
+  opacity: 1;
+}
+to {
+  opacity: 0.5;
+}
 `;
 
 export const pulseBlob = keyframes`

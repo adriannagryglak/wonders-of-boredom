@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { pulseBlob, pulsePlop } from "./Global";
 
 export const BlobStyled = styled.div`
@@ -7,22 +7,20 @@ export const BlobStyled = styled.div`
   ::after {
     content: "";
     filter: blur(50px);
-    height: ${(props) => props.height};
-    width: ${(props) => props.width};
+    height: var(--height);
+    width: var(--width);
     background: linear-gradient(red, transparent),
       linear-gradient(to top left, #9aff00, transparent),
       linear-gradient(to top right, blue, transparent);
     background-blend-mode: screen;
-    top: ${(props) => props.top};
-    right: ${(props) => props.right};
-    left: ${(props) => props.left};
-    bottom: ${(props) => props.bottom};
+    top: var(--top);
+    right: var(--right);
+    left: var(--left);
+    bottom: var(--bottom);
     border-radius: 50%;
     filter: blur(50px);
-    transform: rotate(${(props) => props.rotate});
-    animation: ${({ plop }) => (plop ? pulsePlop : pulseBlob)} 3s linear 1s
-     infinite alternate;
-    position: ${({ fixed }) => (fixed ? "fixed" : "absolute")};
- 
+    transform: rotate(var(--rotate));
+    animation: ${({ plop }) => (plop ? pulsePlop : pulseBlob)} 3s linear 1s infinite alternate;
+    position: var(--fixed, absolute);
   }
 `;

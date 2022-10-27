@@ -9,7 +9,10 @@ export default function TagsMenu({ setIsOpen, isOpen}) {
 
   return (
     <ActivitiesListStyled top={isOpen}>
-      <li onClick={setIsOpen}>tags</li>
+      <li onClick={e =>{
+        e.stopPropagation();
+        setIsOpen();
+      }}>tags</li>
       <li className={!isOpen ? "closed tags-container" : "tags-container"}>
         {tags.map((tag, i) => {
           return (

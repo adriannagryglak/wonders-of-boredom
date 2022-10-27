@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "../../firebase-config";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { shuffleArray } from "../../utils";
 
 const activitiesCollectionRef = collection(db, "activities");
 
 export const getActivities = createAsyncThunk(
-  "activities/gestActivities",
+  "activities/getsActivities",
   async ({ category, tags }) => {
     let q;
     if (!category && tags.length === 0) {
@@ -30,6 +30,13 @@ export const getActivities = createAsyncThunk(
   }
 );
 
+export const updateActivity = createAsyncThunk("activities/updateActivity",
+  async({id, points})=>{
+    const ActivityDoc = doc(db,"activities", id);
+      await updateDoc(ActivityDoc, {points: points});
+      return {id, points};
+  }
+);
 
 const initialState = {
     activities: [],
@@ -72,6 +79,11 @@ export const activitiesSlice = createSlice({
         state.loading = false;
         state.activities = [];
         state.errors = action.error.message;
+      })
+      .addCase(updateActivity.fulfilled, (state, action) => {
+        state.activities = state.activities.map(activity => {
+          return activity.id === action.payload.id ? {...activity, points: action.payload.points} : activity;
+        });
       })
   },
 });
