@@ -82,7 +82,7 @@ export default function Activities() {
       exit={{ opacity: 0 }}
     >
       <ActivitiesStyled onClick={()=>{setIsOpen({sorts: false, categories: false, tags: false, modal: false,})}}
-        blur={Object.values(isOpen).every((el) => !el) ? "0" : "100%"}
+        blur={Object.values(isOpen).every((el) => !el) ? "1px" : "100%"}
       > 
         <BlobStyled ref={blobRef} style={{"--height": "400px", "--width":"250px", "--right":"-10%", "--top": "0"}} />
         <ActivitiesMenusWrapperStyled>

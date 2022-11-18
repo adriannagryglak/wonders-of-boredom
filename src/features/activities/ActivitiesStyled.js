@@ -10,7 +10,6 @@ export const ActivitiesStyled = styled.section`
   overflow: hidden;
   min-height: ${({ isDisplay }) => (isDisplay ? "none" : "100vh")};
   pointer-events: ${({ isModal }) => isModal ? "none" : "auto"}; 
-  cursor: pointer;
 
   p {
     font-size: 1.5rem;
@@ -35,6 +34,7 @@ export const ActivitiesStyled = styled.section`
     height: ${({ blur }) => (blur)};
     content: "";
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     top: 0;
     left: 0;
     z-index: 1;
@@ -47,7 +47,6 @@ export const ActivitiesMenusWrapperStyled = styled.div`
   flex-direction: column;
   padding: 50px 0;
 
-  
   ${media.smallScreen} {
     flex-direction: row;
     max-width: 992px;

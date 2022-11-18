@@ -1,12 +1,5 @@
 import { db } from "../../firebase-config";
-import {
-  collection,
-  query,
-  orderBy,
-  limit,
-  getDocs,
-  where,
-} from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import {
   ActivitiesStyled,
@@ -17,18 +10,21 @@ import SortingMenu from "./SortingMenu";
 import { Link } from "react-router-dom";
 import Message from "./Message";
 import Activity from "./Activity";
-import { useSelector } from "react-redux";
-import { selectActivitiesState } from "./activitiesSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectActivitiesState, getActivities } from "./activitiesSlice";
 
 export default function ActivitiesDisplay() {
-  const { sorting } = useSelector(selectActivitiesState);
-  const [activities, setActivities] = useState();
-  const [errors, setErrors] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { sorting, activities, loading, errors } = useSelector(
+    selectActivitiesState
+  );
+  const [threeActivities, setThreeActivities] = useState([]);
+  const [threeErrors, setThreeErrors] = useState(null);
+  const [threeLoading, setThreeLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shine, setShine] = useState(false);
 
   const activitiesCollectionRef = collection(db, "activities");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -37,48 +33,57 @@ export default function ActivitiesDisplay() {
         q = query(activitiesCollectionRef, orderBy("points", "desc"), limit(3));
       } else if (sorting.includes("least")) {
         q = query(activitiesCollectionRef, orderBy("points"), limit(3));
-      } else {
-        let max;
-        let min;
-        try {
-          setErrors(null);
-          setActivities([]);
-          setLoading(true);
-          const heighest = await getDocs(
-            query(activitiesCollectionRef, orderBy("points", "desc"), limit(3))
-          );
-          const lowest = await getDocs(
-            query(activitiesCollectionRef, orderBy("points"), limit(1))
-          );
-          max = heighest.docs.map((doc) => ({ ...doc.data() }))[2].points;
-          min = lowest.docs.map((doc) => ({ ...doc.data() }))[0].points;
-          let random = Math.floor(Math.random() * (max - min + 1)) + min;
-          q = query(
-            activitiesCollectionRef,
-            where("points", ">=", random),
-            limit(3)
-          );
-        } catch (e) {
-          setErrors(e.message);
-        }
       }
-
       try {
         const data = await getDocs(q);
-        setActivities(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setThreeErrors(null);
+        setThreeActivities(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
       } catch (e) {
-        setErrors(e.message);
+        setThreeErrors(e.message);
       } finally {
-        setLoading(false);
+        setThreeLoading(false);
       }
     };
-    getData();
+
+    if (sorting.includes("random")) {
+      dispatch(getActivities({ category: null, tags: [] }));
+    } else {
+      getData();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sorting]);
 
+  useEffect(() => {
+    if (activities.length > 0 && sorting.includes("random")) {
+      let indexes = [];
+      while (indexes.length < 3) {
+        let index = Math.floor(Math.random() * activities.length);
+        indexes.push(index);
+        indexes = [...new Set(indexes)];
+      }
+
+      let randomActivities = [];
+      if (randomActivities.length === 3) {
+        randomActivities.forEach((el) => {
+          randomActivities.push(activities[el]);
+        });
+      }
+      setThreeActivities(randomActivities);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activities]);
+
+  useEffect(() => {
+    setThreeLoading(loading);
+    setThreeErrors(errors);
+  }, [loading, errors]);
+
   return (
     <ActivitiesStyled
-      blur={!isMenuOpen}
+      blur={isMenuOpen ? "100%" : "0"}
       isDisplay={true}
       id="activities-display"
     >
@@ -90,10 +95,10 @@ export default function ActivitiesDisplay() {
           }}
         />
       </ActivitiesMenusWrapperStyled>
-      <Message errors={errors} loading={loading} />
+      <Message errors={threeErrors} loading={threeLoading} />
       <ActivitiesWrapperStyled>
-        {activities &&
-          activities.map((activity) => {
+        {threeActivities &&
+          threeActivities.map((activity) => {
             return (
               <Activity
                 setShine={setShine}

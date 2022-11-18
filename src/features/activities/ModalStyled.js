@@ -45,7 +45,6 @@ export const IconWrapperStyled = styled.div`
     right: -90%;
     font-size: 16px;
     transform: rotate(5deg);
-    opacity: 0;
   }
 `;
 
