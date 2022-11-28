@@ -136,4 +136,5 @@ to {
   filter: blur(80px);
 }
 `;
+
 export default GlobalStyles;

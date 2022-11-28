@@ -1,11 +1,25 @@
-
-
 # wonders of boredom 🧠 ✨
 
 ## App created for learning purposes- to practice React, CRUDing, GIT and many, many more...
-Stay tuned for new versions !
 
-## See live: https://wonders-of-boredom.web.app/
+##### _Stay tuned for new versions !_
+
+## 🌟[SEE LIVE HERE](https://wonders-of-boredom.web.app)
+
+## Features
+- database full of activity ideas, perfect for moments of boredom
+- filtering activities by category, tags and rating
+- adding your own ideas and rating existing ones
+- accesible for screen readers and responsive
+##
+## Tech
+- React
+- Styled components
+- React Router
+- Redux Toolkit
+- Firebase
+##
+
 
 And yes, this project was of course bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
